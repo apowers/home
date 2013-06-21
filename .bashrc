@@ -75,9 +75,8 @@ else
 fi
 
 # enable color support of ls and also add handy aliases
-DIRC=`which dircolors`
-if [ -x $DIRC ]; then
-  eval $($DIRC -b)
+if [ -x /usr/bin/dircolors ]; then
+  $(/usr/bin/dircolors -b)
 elif [ -r ~/.dircolors ]; then
   source ~/.dircolors
 fi
