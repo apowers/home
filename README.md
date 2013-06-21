@@ -1,4 +1,34 @@
-home
+Home Evnironment
 ====
 
 Home Environment Happiness
+
+*.bashrc* - The workhorse, make your shell happy.
+*.profile* - Sources .bashrc for login shells.
+*.inputrc* - Remaps the up and down arrows to history search and other features.
+*.dircolors* - Color codes for grep, other commands; probably not required.
+*.vimrc* - Configuration file for vim.
+
+Installation
+====
+Copy each of the adove files to your home directory.
+Relog or 'source .bashrc' and grin.
+
+for F in .bashrc .profile .inputrc .dircolor .vimrc ; do wget https://raw.github.com/apowers/home/master/$F -O ~/$F ; done
+
+Features
+====
+Enables emacs style CLI editing.
+Enables the vim editor with many useful features.
+Enables the less pager with some useful features.
+
+The look of your prompt is a very personal thing for most people.
+This prompt tries to strike a balance between brevity and usefullness.
+
+    [exit-code](HH:MM:SS)user@host:directory/$>
+
+If you are in a git repository it will show you which branch you are on.
+
+    [0](00:00:00)user@host:directory/{branch}$>
+
+Suggestions are welcome.

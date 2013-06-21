@@ -1,10 +1,17 @@
+# Readline Options
+set editing-mode emacs
+#set completion-ignore-case on
+set completion-query-items 250
+set show-all-if-ambiguous on
+#set show-all-if-unmodified on
+set visible-stats on
 # History Search for bash on FreeBSD
 "\M-[A": history-search-backward
 "\M-OA": history-search-backward
 "\M-[B": history-search-forward
 "\M-OB": history-search-forward
 # History Search for bash on Ubuntu
-"\C-[OA"        history-search-backward
-"\C-[OB"        history-search-forward
-"\C-[[A"        history-search-backward
-"\C-[[B"        history-search-forward
+"\C-[OA" history-search-backward
+"\C-[OB" history-search-forward
+"\C-[[A" history-search-backward
+"\C-[[B" history-search-forward
