@@ -1,0 +1,10 @@
+# History Search for bash on FreeBSD
+"\M-[A": history-search-backward
+"\M-OA": history-search-backward
+"\M-[B": history-search-forward
+"\M-OB": history-search-forward
+# History Search for bash on Ubuntu
+"\C-[OA"        history-search-backward
+"\C-[OB"        history-search-forward
+"\C-[[A"        history-search-backward
+"\C-[[B"        history-search-forward
