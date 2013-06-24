@@ -6,10 +6,10 @@
 [[ $- != *i* ]] && return
 
 # Source the standard profile for non-login shells
-if [[ -r /etc/profile ]] ; then source /etc/profile 2>/dev/null ; fi
+[[ -r /etc/profile ]] && source /etc/profile 2>/dev/null 
 
 # import keybindings for history search
-if [[ -r ~/.inputrc ]] ; then bind -f ~/.inputrc ; fi
+[[ -r ~/.inputrc ]] && bind -f ~/.inputrc 
 
 # enviroment variables
 PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:$PATH"
@@ -60,8 +60,6 @@ shopt -s checkjobs 2>/dev/null
 function git_branch {
   if [[ `git status 2>/dev/null` ]] ; then
    echo -n {`git status -sb|head -n1|awk '{print $2}'`}
-#   GITB=`git status -sb|head -n1|awk '{print $2}'` 
-#   echo -n "\[\033[0;34m\]$GITB\[\033[m\]"
   fi
 }
 
@@ -111,7 +109,7 @@ case $OSREL in
 esac
 
 # Alias definitions.
-if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases ; fi
+[ -f ~/.bash_aliases ] && . ~/.bash_aliases 
 
 # enable programmable completion features
 if ! shopt -oq posix; then
