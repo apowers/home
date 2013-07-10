@@ -59,7 +59,7 @@ shopt -s checkjobs 2>/dev/null
 
 function git_branch {
   if [[ `git status 2>/dev/null` ]] ; then
-   echo -n {`git status -sb|head -n1|awk '{print $2}'`}
+   echo -n {`git status|head -n1|awk '{print $4}'`}
   fi
 }
 
@@ -74,7 +74,7 @@ fi
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-  $(/usr/bin/dircolors -b)
+  eval $(/usr/bin/dircolors -b)
 elif [ -r ~/.dircolors ]; then
   source ~/.dircolors
 fi
@@ -85,25 +85,26 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 alias less='less -NMisc'
+alias sudo='sudo '
 
 # OS dependent aliases
 case $OSREL in
   FreeBSD)
     alias ls='ls -aCFG'
     alias ll='ls -alhFG -D"%F %T"'
-    alias ps='ps axo user,pid,pcpu,pmem,stat,ni,time,command'
+    alias pp='ps axo user,pid,pcpu,pmem,stat,ni,time,command'
     alias netstat='netstat -anf inet'
   ;;
   Linux)
     alias ls='ls -aCF --color=auto'
     alias ll='ls -alhF --color=auto --time-style=long-iso'
-    alias ps='ps axo user,pid,pcpu,pmem,stat,ni,bsdtime,command'
+    alias pp='ps axo user,pid,pcpu,pmem,stat,ni,bsdtime,command'
     alias netstat='netstat -ant'
   ;;
   *)
     alias ls='ls -aCF'
     alias ll='ls -alhF'
-    alias ps='ps aux'
+    alias pp='ps aux'
     alias netstat='netstat -an'
   ;;
 esac

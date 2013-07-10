@@ -50,14 +50,16 @@ set t_vb=
 set tm=500
 
 " Enable filetype plugins
-filetype plugin on
-filetype indent on
+if has('gui_running')
+  filetype plugin on
+  filetype indent on
+" Enable syntax highlighting
+  syntax enable
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Enable syntax highlighting
-syntax enable
 " Always display a status line at the bottom of the window
 set laststatus=2
 
