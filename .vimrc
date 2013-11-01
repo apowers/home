@@ -51,8 +51,7 @@ set tm=500
 
 " Enable filetype plugins
 if has('gui_running')
-  filetype plugin on
-  filetype indent on
+
 " Enable syntax highlighting
   syntax enable
 endif
@@ -60,6 +59,8 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+colors darkblue
+
 " Always display a status line at the bottom of the window
 set laststatus=2
 
