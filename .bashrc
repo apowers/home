@@ -36,8 +36,8 @@ case $OSREL in
   Linux)
     export LANG='en_US.utf8'
     EDITOR=vim
-    [[ -x /usr/bin/dircolors ]] && /usr/bin/dircolors
-    [[ -x ~/.dircolors ]] && ~/.dircolors
+    [[ -x /usr/bin/dircolors ]] && /usr/bin/dircolors >/dev/null
+    [[ -x ~/.dircolors ]] && ~/.dircolors >/dev/null
     ;;
   *);;
 esac
@@ -65,18 +65,10 @@ shopt -s checkjobs 2>/dev/null
 
 function git_branch {
   [[ `git status 2>/dev/null` ]] && echo -n {`git status|head -n1|awk '{print $4}'`}
-
 }
 
 # Set the terminal title with `termname some title`
 function tname { echo -en "\033]2;$*\007"; }
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-  eval $(/usr/bin/dircolors -b)
-elif [ -r ~/.dircolors ]; then
-  source ~/.dircolors
-fi
 
 # save and load the history on every prompt
 # show last exit code, time, user, hostname, directory, git branch, prompt
