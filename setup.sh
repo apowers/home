@@ -26,4 +26,5 @@ if /usr/bin/dpkg -l | grep xorg ; then
   /usr/bin/apt-get -qq -y install $XPKGS
 fi
 
+for F in .bashrc .profile .inputrc .vimrc .dircolors;do wget --no-check-certificate https://raw.github.com/apowers/home/master/$F -O ~/$F;done
 
