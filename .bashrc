@@ -124,3 +124,11 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+#Load SSH Agent - use `ssh-add` to install keys.
+if [ ! $SSH_AGENT_PID ] ; then
+  if [ -x /usr/bin/ssh-agent ] ; then
+    /usr/bin/ssh-agent $SHELL
+  fi
+fi
+

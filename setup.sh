@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # packages
-PKGS='git git-flow wget nmap vim vim-athena rubygems vagrant tree puppet'
+PKGS='git git-flow wget nmap vim vim-athena rubygems vagrant tree tmux puppet'
 GEMS='rake hiera-eyaml puppet-lint puppetlabs_spec_helper'
 XPKGS='synergy geany geany-plugins pidgin pidgin-sipe conky'
 
