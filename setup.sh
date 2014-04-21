@@ -6,7 +6,7 @@ GEMS='rake hiera-eyaml puppet-lint puppetlabs_spec_helper'
 XPKGS='synergy geany geany-plugins pidgin pidgin-sipe conky'
 
 # Install dotfiles
-for F in .bashrc .profile .inputrc .vimrc .dircolors ; do
+for F in .bashrc .profile .inputrc .vimrc .dircolors .tmux.conf ; do
   wget --no-check-certificate https://raw.github.com/apowers/home/master/$F -O ~/$F
 done
 

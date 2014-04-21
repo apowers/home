@@ -64,19 +64,19 @@ shopt -s checkjobs 2>/dev/null
 [[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
 
 function git_branch {
-  [[ -d .git ]] && [[ `git status 2>/dev/null` ]] && echo -n "{$(git status|head -n1|awk '{print $4}')}"
+  [[ `git status 2>/dev/null` ]] && echo -n "{$(git status|head -n1|sed 's/.*branch \([a-z]*\).*/\1/')}"
 }
 
 # Set the terminal title with `termname some title`
 function tname { echo -en "\033]2;$*\007"; }
 
-# save and load the history on every prompt
 # show last exit code, time, user, hostname, directory, git branch, prompt
 # color prompt for xterm
 case $TERM in
-xterm*,screen)
+xterm*)
+# save and load the history on every prompt
   PS1="$(history -a)$(history -n)[\[\033[0;33m\]\$?\[\033[m\]](\t)\[\033[01;34m\]\u@\h\[\033[m\]:\[\033[0;32m\]\w/\[\033[m\]\[\033[0;36m\]\$(git_branch)\[\033[m\]\\$>"
-  tname $(hostname)
+#  PS1="[\[\033[0;33m\]\$?\[\033[m\]](\t)\[\033[01;34m\]\u@\h\[\033[m\]:\[\033[0;32m\]\w/\[\033[m\]\[\033[0;36m\]\$(git_branch)\[\033[m\]\\$>"
   ;;
 *)
   PS1="$(history -a)$(history -n)[\$?](\t)\u@\h:\w\\$>"
