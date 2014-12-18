@@ -63,8 +63,9 @@ shopt -s checkjobs 2>/dev/null
 # make less more friendly for non-text input files, see lesspipe(1)
 [[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
 
-function git_branch {
+function branch {
   [[ `git status 2>/dev/null` ]] && echo -n "{$(git status|head -n1|sed 's/.*branch \(.*\)/\1/')}"
+  [[ `hg sum 2>/dev/null` ]] && echo -n "{$(hg sum|grep branch|sed 's/branch: \(.*\)/\1/')}"
 }
 
 # Set the terminal title with `termname some title`
@@ -75,8 +76,8 @@ function tname { echo -en "\033]2;$*\007"; }
 case $TERM in
 xterm*)
 # save and load the history on every prompt
-  PS1="$(history -a)$(history -n)[\[\033[0;33m\]\$?\[\033[m\]](\t)\[\033[01;34m\]\u@\h\[\033[m\]:\[\033[0;32m\]\w/\[\033[m\]\[\033[0;36m\]\$(git_branch)\[\033[m\]\\$>"
-#  PS1="[\[\033[0;33m\]\$?\[\033[m\]](\t)\[\033[01;34m\]\u@\h\[\033[m\]:\[\033[0;32m\]\w/\[\033[m\]\[\033[0;36m\]\$(git_branch)\[\033[m\]\\$>"
+  PS1="$(history -a)$(history -n)[\[\033[0;33m\]\$?\[\033[m\]](\t)\[\033[01;34m\]\u@\h\[\033[m\]:\[\033[0;32m\]\w/\[\033[m\]\[\033[0;36m\]\$(branch)\[\033[m\]\\$>"
+#  PS1="[\[\033[0;33m\]\$?\[\033[m\]](\t)\[\033[01;34m\]\u@\h\[\033[m\]:\[\033[0;32m\]\w/\[\033[m\]\[\033[0;36m\]\$(branch)\[\033[m\]\\$>"
   ;;
 *)
   PS1="$(history -a)$(history -n)[\$?](\t)\u@\h:\w\\$>"

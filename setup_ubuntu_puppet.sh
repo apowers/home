@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # packages
-PKGS='git git-flow wget nmap vim vim-athena rubygems vagrant tree tmux puppet'
-GEMS='rake hiera-eyaml puppet-lint puppetlabs_spec_helper'
+PKGS='git git-flow mercurial wget nmap vim vim-athena rubygems vagrant tree tmux'
 XPKGS='synergy geany geany-plugins pidgin pidgin-sipe conky'
+PUPPET_GEMS='rake hiera-eyaml puppet-lint puppetlabs_spec_helper'
 
 # Install dotfiles
 for F in .bashrc .profile .inputrc .vimrc .dircolors .tmux.conf ; do
