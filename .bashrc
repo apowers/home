@@ -65,7 +65,7 @@ shopt -s checkjobs 2>/dev/null
 
 function branch {
   [[ `git status 2>/dev/null` ]] && echo -n "{$(git status|head -n1|sed 's/.*branch \(.*\)/\1/')}"
-  [[ `hg sum 2>/dev/null` ]] && echo -n "{$(hg sum|grep branch|sed 's/branch: \(.*\)/\1/')}"
+  [[ `hg sum -y 2>/dev/null` ]] && echo -n "{$(hg sum|grep branch:|sed 's/branch: \(.*\)/\1/')}"
 }
 
 # Set the terminal title with `termname some title`
