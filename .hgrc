@@ -1,0 +1,27 @@
+[ui]
+username = Atom Powers <apowers@us.imshealth.com>
+debug = true
+merge = vimdiff
+
+[hooks]
+precommit = /usr/local/bin/salt-validate
+
+[alias]
+up = update --check
+
+[extensions]
+mq=
+flow=/usr/local/bin/hgflow.py
+shelve=
+graphlog=
+
+[flow]
+autoshelve = true
+
+[merge-tools]
+#vimdiff.executable = vim
+#vimdiff.args = -d $output $local $other $base -c "wincmd J" 
+vimdiff.executable = vimdiff
+vimdiff.args = -f -d $output -M $local $base $other -c "wincmd J" -c "set modifiable" -c "set write"
+vimdiff.premerge = keep
+
