@@ -74,7 +74,7 @@ function tname { echo -en "\033]2;$*\007"; }
 # show last exit code, time, user, hostname, directory, git branch, prompt
 # color prompt for xterm
 case $TERM in
-xterm*)
+xterm*|screen*)
 # save and load the history on every prompt
   PS1="$(history -a)$(history -n)[\[\033[0;33m\]\$?\[\033[m\]](\t)\[\033[01;34m\]\u@\h\[\033[m\]:\[\033[0;32m\]\w/\[\033[m\]\[\033[0;36m\]\$(branch)\[\033[m\]\\$>"
 #  PS1="[\[\033[0;33m\]\$?\[\033[m\]](\t)\[\033[01;34m\]\u@\h\[\033[m\]:\[\033[0;32m\]\w/\[\033[m\]\[\033[0;36m\]\$(branch)\[\033[m\]\\$>"
