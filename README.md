@@ -44,3 +44,16 @@ If you are in a git repository it will show you which branch you are on.
     [0](00:00:00)user@host:directory/{branch}$>
 
 Suggestions are welcome.
+
+Sublime
+===
+add-apt-repository ppa:webupd8team/sublime-text-2
+apt-get install sublime-text
+
+
+Package Control
+https://packagecontrol.io/installation
+
+CTRL+SHIFT+P, "Package Control: Install Package", "Puppet", "Sublimelint", "GitGutter"
+
+
