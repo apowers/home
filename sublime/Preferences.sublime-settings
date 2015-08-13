@@ -1,11 +1,12 @@
 {
+	"detect_indentation": true,
 	"ensure_newline_at_eof_on_save": true,
-	"font_size": 10,
+	"font_size": 9,
 	"ignored_packages":
 	[
 		"Vintage"
 	],
-	"indent_to_bracket": true,
+	"indent_to_bracket": false,
 	"margin": 2,
 	"shift_tab_unindent": true,
 	"tab_size": 4,

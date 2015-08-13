@@ -1,0 +1,18 @@
+[user]
+	email = atom.powers@gmail.com
+	name = Atom Powers
+[push]
+	default = current
+[core]
+	pager = less -r
+[branch]
+  autosetuprebase = always
+[alias]
+  br = checkout -b
+  ci = commit --all
+  co = checkout
+  rb = rebase master
+  st = status
+  lg = log --name-status
+  ad = add -A
+

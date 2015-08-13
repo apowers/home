@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # packages
-PKGS='puppet git git-flow wget nmap vim vim-athena vagrant tree tmux'
+PKGS='puppet git git-flow wget nmap vim vim-athena vagrant tree tmux jq'
 XPKGS='synergy geany geany-plugins pidgin pidgin-sipe conky'
 GEMS='rake hiera-eyaml puppet-lint puppetlabs_spec_helper'
 

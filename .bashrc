@@ -45,6 +45,9 @@ esac
 # file creation mask is 664
 umask 002
 
+# Disable terminal flow control, may cause tumx to "freeze" with CTRL-s
+stty -ixon
+
 # turn on interactive line editing
 set -o emacs
 
