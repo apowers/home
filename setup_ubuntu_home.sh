@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # packages
-PKGS='puppet git git-flow wget nmap vim vim-athena vagrant tree tmux jq'
+PKGS='git git-flow wget nmap vim vim-athena vagrant tree tmux jq traceroute build-essential lxc-docker'
 XPKGS='synergy geany geany-plugins pidgin pidgin-sipe conky'
-GEMS='rake hiera-eyaml puppet-lint puppetlabs_spec_helper'
 
 # Install dotfiles
 for F in .bashrc .profile .inputrc .vimrc .dircolors .tmux.conf ; do
@@ -27,7 +26,12 @@ RUNLEVEL=1
 /usr/bin/apt-get -qq -y install $PKGS
 unset RUNLEVEL
 
-/usr/bin/gem install $GEMS --no-rdoc --no-ri
+# Install Puppet
+if [[ "$1" == "puppet" ]] ; then
+  /usr/bin/apt-get -qq -y install puppet
+  GEMS='rake hiera-eyaml puppet-lint puppetlabs_spec_helper'
+  /usr/bin/gem install $GEMS --no-rdoc --no-ri
+fi
 
 # Install graphical apps if xorg is installed
 if /usr/bin/dpkg -l xorg >/dev/null ; then

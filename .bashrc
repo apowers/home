@@ -12,6 +12,7 @@
 [[ -r ~/.inputrc ]] && bind -f ~/.inputrc
 
 # enviroment variables
+[[ -r /etc/os-release ]] && source /etc/os-release
 PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:$PATH"
 HISTCONTROL=ignoreboth:erasedups
 HISTSIZE=10000
@@ -29,15 +30,15 @@ export FTP_PASSIVE_MODE=true
 case $OSREL in
   FreeBSD)
     export LANG='en_US.UTF-8'
-    EDITOR=vi
+    export EDITOR=vi
     export CLICOLOR=1
     export LSCOLORS=ExFxBxDxCxegedabagacad
     ;;
   Linux)
     export LANG='en_US.utf8'
-    EDITOR=vim
-    [[ -x /usr/bin/dircolors ]] && /usr/bin/dircolors >/dev/null
-    [[ -x ~/.dircolors ]] && ~/.dircolors >/dev/null
+    [[ -x /usr/bin/dircolors ]] && source /usr/bin/dircolors >/dev/null
+    [[ -x ~/.dircolors ]] && source ~/.dircolors >/dev/null
+    [[ -d /usr/src/kernels/$(uname -r) ]] && export KERN_DIR=/usr/src/kernels/$(uname -r)
     ;;
   *);;
 esac
@@ -98,20 +99,20 @@ alias sudo='sudo '
 # OS dependent aliases
 case $OSREL in
   FreeBSD)
-    alias ls='ls -aCFG'
-    alias ll='ls -alhFG -D"%F %T"'
+    alias ls='ls -ACFG'
+    alias ll='ls -AlhFG -D"%F %T"'
     alias pp='ps axo user,pid,pcpu,pmem,stat,ni,time,command'
     alias netstat='netstat -anf inet'
   ;;
   Linux)
-    alias ls='ls -aCF --color=auto'
-    alias ll='ls -alhF --color=auto --time-style=long-iso'
+    alias ls='ls -ACF --color=auto'
+    alias ll='ls -AlhF --color=auto --time-style=long-iso'
     alias pp='ps axo user,pid,pcpu,pmem,stat,ni,bsdtime,command'
     alias netstat='netstat -ant'
   ;;
   *)
-    alias ls='ls -aCF'
-    alias ll='ls -alhF'
+    alias ls='ls -ACF'
+    alias ll='ls -AlhF'
     alias pp='ps aux'
     alias netstat='netstat -an'
   ;;
