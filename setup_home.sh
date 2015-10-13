@@ -1,5 +1,14 @@
 #!/bin/bash
 # Set Home dev environment in Fedora
+# For generic, non Xorg.
+
+if [[ "$1" == "xorg" ]] ; then
+    echo "Installing Xorg environment."
+    XORG='True'
+else
+    echo "Installing shell environment. For X11 use: $0 xorg"
+    XORG=''
+fi
 
 if [[ $(id -u) != 0 ]]; then
     echo "Must be root to install packages"
@@ -12,7 +21,7 @@ else
     ID=$(cat /etc/issue | head -1 | cut -f1 -d " ")
 fi
 
-PKGS='
+PKGS=(
     bzip2
     dkms
     gcc
@@ -31,9 +40,47 @@ PKGS='
     tree
     vagrant
     wget
-'
+)
 
-GEMS='bundler puppet_facts puppet-lint puppet-syntax rspec-puppet beaker beaker-rspec'
+DEB_PKGS=(
+    build-essential
+    git-flow
+    libxml2-dev
+    libxslt-dev
+    lxc-docker
+    nc
+    ruby-dev
+    vim-athena
+)
+
+RHEL_PKGS=(
+    docker
+    gitflow
+    kernel-devel
+    kernel-headers
+    nmap-ncat
+    vim-enhanced
+)
+
+FEDORA_PKGS=(
+    docker
+    gitflow
+    kernel-devel
+    kernel-headers
+    nmap-ncat
+    vim-enhanced
+)
+
+GEMS=(
+    beaker
+    beaker-rspec
+    bundler
+    puppet-lint
+    puppet-syntax
+    puppet_facts
+    rspec-puppet
+)
+
 
 function main {
     case $ID in
@@ -41,13 +88,6 @@ function main {
         /usr/bin/apt-get -qq -y install wget;
         PUPPET_URL="http://apt.puppetlabs.com";
         PUPPET_REPO="puppetlabs-release-$(lsb_release -c -s).deb";
-        DIST_PKGS='
-            git-flow
-            vim-athena
-            build-essential
-            lxc-docker
-        '
-        # zlib1g-dev ldap-utils ruby-dev libxslt-dev libxml2-dev
         debian_packages
       ;;
       [cC]ent[oO][sS]|[rR]ed[hH]at)
@@ -55,32 +95,13 @@ function main {
         [[ -z "$VERSION_ID" ]] && VERSION_ID=6
         PUPPET_URL="http://yum.puppetlabs.com";
         PUPPET_REPO="puppetlabs-release-el-${VERSION_ID}.noarch.rpm";
-        DIST_PKGS='
-            gitflow
-            kernel-devel
-            kernel-headers
-            vim-enhanced
-            docker
-        '
-        fedora_packages
+        rhel_packages
       ;;
       [fF]edora)
         yum install -y -q wget
 
-        # Install rpmfusion repository
-        wget http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-22.noarch.rpm -O /tmp/rpmfusion-free-release-22.noarch.rpm
-        rpm -i /tmp/rpmfusion-free-release-22.noarch.rpm
-
         PUPPET_URL="http://yum.puppetlabs.com";
         PUPPET_REPO="puppetlabs-release-fedora-${VERSION_ID}.noarch.rpm";
-        DIST_PKGS='
-            gitflow
-            kernel-devel
-            kernel-headers
-            vim-enhanced
-            docker
-            freetype-freeworld
-        '
         fedora_packages
 
         # subpixel rendinging from freetype-freeworld, may not be necessary
@@ -99,58 +120,86 @@ function main {
     source ~/.bashrc
 
     # Puppet development tools
-    /usr/bin/gem install $GEMS --no-rdoc --no-ri
+    /usr/bin/gem install ${GEMS[@]} --no-rdoc --no-ri
 
-    # Install sublime
-    wget https://gist.githubusercontent.com/henriquemoody/3288681/raw/dc9276c8caa1dfcbebb73af960738eff2ca0a4d7/sublime-text-2.sh -O ~/Downloads/sublime-text-2-install.sh
-    chmod +x ~/Downloads/sublime-text-2-install.sh
-    ~/Downloads/sublime-text-2-install.sh
+    if [[ ! -z $XORG ]] ; then
+        # Install sublime
+        wget https://gist.githubusercontent.com/henriquemoody/3288681/raw/dc9276c8caa1dfcbebb73af960738eff2ca0a4d7/sublime-text-2.sh -O ~/Downloads/sublime-text-2-install.sh
+        chmod +x ~/Downloads/sublime-text-2-install.sh
+        ~/Downloads/sublime-text-2-install.sh
 
-    # install configs for sublime
-    cp sublime/* ~/.config/sublime-text-2/Packages/User/.
+        # install configs for sublime
+        cp sublime/* ~/.config/sublime-text-2/Packages/User/.
+    fi
 
 }
 
 function debian_packages {
-        DEBIAN_FRONTEND=noninteractive;
-        RUNLEVEL=1
-        APT_OPTS='-qq -y'
-        echo force-confold >> /etc/dpkg/dpkg.cfg.d/force_confold;
-        echo 'Dpkg::Options{"--force-confdef";"--force-confold";}' >> /etc/apt/apt.conf.d/local
+    DEBIAN_FRONTEND=noninteractive;
+    RUNLEVEL=1
+    APT_OPTS='-qq -y'
+    echo force-confold >> /etc/dpkg/dpkg.cfg.d/force_confold;
+    echo 'Dpkg::Options{"--force-confdef";"--force-confold";}' >> /etc/apt/apt.conf.d/local
 
-        /usr/bin/wget -O /tmp/$PUPPET_REPO $PUPPET_URL/$PUPPET_REPO 2>&1 >/dev/null;
-        /usr/bin/dpkg -i /tmp/$PUPPET_REPO;
+    /usr/bin/wget -O /tmp/$PUPPET_REPO $PUPPET_URL/$PUPPET_REPO 2>&1 >/dev/null;
+    /usr/bin/dpkg -i /tmp/$PUPPET_REPO  2>&1 >/dev/null;
 
-        # Docker repository
-        apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys
-        echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
+    # Docker repository
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys
+    echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
 
-        /usr/bin/apt-get ${APT_OPTS} upgrade 2>&1 >/dev/null;
-        /usr/bin/apt-get ${APT_OPTS} install $PKGS 2>&1 >/dev/null;
-        /usr/bin/apt-get ${APT_OPTS} install $DIST_PKGS 2>&1 >/dev/null;
+    /usr/bin/apt-get ${APT_OPTS} upgrade 2>&1 >/dev/null;
+    /usr/bin/apt-get ${APT_OPTS} install ${PKGS[@]} 2>&1 >/dev/null;
+    /usr/bin/apt-get ${APT_OPTS} install ${DEB_PKGS[@]} 2>&1 >/dev/null;
 
-        unset RUNLEVEL
+    unset RUNLEVEL
+}
+
+function rhel_packages {
+    /usr/bin/wget -O /tmp/$PUPPET_REPO $PUPPET_URL/$PUPPET_REPO 2>&1 >/dev/null;
+    rpm -i /tmp/$PUPPET_REPO  2>&1 >/dev/null;
+
+    rhel_docker_repo
+
+    yum upgrade -q -y 2>&1 >/dev/null;
+    yum install -q -y ${PKGS[@]}  2>&1 >/dev/null;
+    yum install -q -y ${RHEL_PKGS[@]}  2>&1 >/dev/null;
+
 }
 
 function fedora_packages {
-        /usr/bin/wget -O /tmp/$PUPPET_REPO $PUPPET_URL/$PUPPET_REPO 2>&1 >/dev/null;
-        rpm -i /tmp/$PUPPET_REPO
+    /usr/bin/wget -O /tmp/$PUPPET_REPO $PUPPET_URL/$PUPPET_REPO 2>&1 >/dev/null;
+    rpm -i /tmp/$PUPPET_REPO
 
-        # Docker Repository
-        cat > /etc/yum.repos.d/docker-main.repo << -EOF
-        [docker-main-repo]
-        name=Docker Main Repository
-        baseurl=https://yum.dockerproject.org/repo/main/${ID}/${VERSION_ID}
-        enabled=1
-        gpgcheck=1
-        gpgkey=https://yum.dockerproject.org/gpg
-        EOF
+    if [[ ! -z $XORG ]] ; then
+        # RPM Fusion for freetype
+        RPMFUSION_URL='http://download1.rpmfusion.org/free/fedora'
+        RPMFUSION_REPO'rpmfusion-free-release-22.noarch.rpm'
+        /usr/bin/wget -O /tmp/$RPMFUSION_REPO $RPMFUSION_URL/$RPMFUSION_REPO 2>&1 /dev/null;
+        rpm -i /tmp/$RPMFUSION_REPO  2>&1 >/dev/null;
+        dnf install -q -y freetype-freeworld 2>&1 >/dev/null;
+    fi
 
-        yum upgrade -q -y upgrade 2>&1 >/dev/null;
-        yum install -q -y $PKGS  2>&1 >/dev/null;
-        yum install -q -y $DIST_PKGS  2>&1 >/dev/null;
+    rhel_docker_repo
+
+    dnf upgrade -q -y 2>&1 >/dev/null;
+    dnf install -q -y ${PKGS[@]}  2>&1 >/dev/null;
+    dnf install -q -y ${FEDORA_PKGS[@]}  2>&1 >/dev/null;
 
 }
 
+function rhel_docker_repo {
+
+# Docker Repository
+cat > /etc/yum.repos.d/docker-main.repo << -EOF
+[docker-main-repo]
+name=Docker Main Repository
+baseurl=https://yum.dockerproject.org/repo/main/${ID}/${VERSION_ID}
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+-EOF
+
+}
 
 main

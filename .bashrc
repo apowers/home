@@ -12,7 +12,7 @@
 [[ -r ~/.inputrc ]] && bind -f ~/.inputrc
 
 # enviroment variables
-[[ -r /etc/os-release ]] && source /etc/os-release
+[[ -r /etc/os-release ]] && /etc/os-release
 PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:$PATH"
 HISTCONTROL=ignoreboth:erasedups
 HISTSIZE=10000
@@ -36,8 +36,8 @@ case $OSREL in
     ;;
   Linux)
     export LANG='en_US.utf8'
-    [[ -x /usr/bin/dircolors ]] && source /usr/bin/dircolors >/dev/null
-    [[ -x ~/.dircolors ]] && source ~/.dircolors >/dev/null
+    [[ -x /usr/bin/dircolors ]] && /usr/bin/dircolors >/dev/null
+    [[ -x ~/.dircolors ]] && ~/.dircolors >/dev/null
     [[ -d /usr/src/kernels/$(uname -r) ]] && export KERN_DIR=/usr/src/kernels/$(uname -r)
     ;;
   *);;
@@ -72,8 +72,9 @@ function branch {
   [[ `hg branch 2>/dev/null` ]] && echo -n "{$(hg branch)}"
 }
 
-# Set the terminal title with `termname some title`
-function tname { echo -en "\033]2;$*\007"; }
+# Set the terminal title with `title name`
+function title { printf "\033k$1\033\\"; }
+title $(hostname -s)
 
 # show last exit code, time, user, hostname, directory, git branch, prompt
 # color prompt for xterm
