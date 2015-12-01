@@ -69,7 +69,10 @@ FEDORA_PKGS=(
     kernel-headers
     nmap-ncat
     vim-enhanced
+    gcc-c++
 )
+# remmina
+# remmina-plugins-rdp
 
 GEMS=(
     beaker
@@ -79,8 +82,15 @@ GEMS=(
     puppet-syntax
     puppet_facts
     rspec-puppet
+    puppetlabs_spec_helper
 )
 
+# This is a note, not currently used to install packages
+# https://packagecontrol.io/installation#st2
+Sublime_Packages=(
+    SublimeYammy
+    Rspec
+)
 
 function main {
     case $ID in
@@ -131,6 +141,8 @@ function main {
         # install configs for sublime
         cp sublime/* ~/.config/sublime-text-2/Packages/User/.
     fi
+
+    docker_config
 
 }
 
@@ -200,6 +212,13 @@ gpgcheck=1
 gpgkey=https://yum.dockerproject.org/gpg
 -EOF
 
+}
+
+function docker_config {
+    # Limit docker to using 10.5GiB of storage, from the default of 102GiB. Note that a default docker instance has a 10GiB root.
+    # TODO: don't use loopback devicemapper storage
+    # http://www.projectatomic.io/blog/2015/06/notes-on-fedora-centos-and-docker-storage-drivers/
+    sed -i 's/^DOCKER_STORAGE_OPTIONS.*/DOCKER_STORAGE_OPTIONS = --storage-opt dm.loopdatasize=10GB --storage-opt dm.loopmetadatasize=500MB/' /etc/sysconfig/docker-storage
 }
 
 main

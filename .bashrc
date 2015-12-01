@@ -68,7 +68,7 @@ shopt -s checkjobs 2>/dev/null
 [[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
 
 function branch {
-  [[ `git status 2>/dev/null` ]] && echo -n "{$(git status|head -n1|sed 's/.*branch \(.*\)/\1/')}"
+  [[ `git status 2>/dev/null` ]] && echo -n "{$(git rev-parse --abbrev-ref HEAD)}"
   [[ `hg branch 2>/dev/null` ]] && echo -n "{$(hg branch)}"
 }
 
@@ -80,8 +80,8 @@ title $(hostname -s)
 # color prompt for xterm
 case $TERM in
 xterm*|screen*)
-# save and load the history on every prompt
-  PS1="$(history -a)$(history -n)[\[\033[0;33m\]\$?\[\033[m\]](\t)\[\033[01;34m\]\u@\h\[\033[m\]:\[\033[0;32m\]\w/\[\033[m\]\[\033[0;36m\]\$(branch)\[\033[m\]\\$>"
+# save the history on every prompt
+  PS1="$(history -a)[\[\033[0;33m\]\$?\[\033[m\]](\t)\[\033[01;34m\]\u@\h\[\033[m\]:\[\033[0;32m\]\w/\[\033[m\]\[\033[0;36m\]\$(branch)\[\033[m\]\\$>"
 #  PS1="[\[\033[0;33m\]\$?\[\033[m\]](\t)\[\033[01;34m\]\u@\h\[\033[m\]:\[\033[0;32m\]\w/\[\033[m\]\[\033[0;36m\]\$(branch)\[\033[m\]\\$>"
   ;;
 *)
