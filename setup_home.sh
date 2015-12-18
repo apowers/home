@@ -31,10 +31,8 @@ PKGS=(
     mercurial
     nmap
     perl
-    puppet
     python-devel
     rsync
-    ruby-devel
     tmux
     traceroute
     tree
@@ -59,31 +57,15 @@ RHEL_PKGS=(
     kernel-devel
     kernel-headers
     nmap-ncat
+    ruby-devel
     vim-enhanced
 )
 
 FEDORA_PKGS=(
-    docker
-    gitflow
-    kernel-devel
-    kernel-headers
-    nmap-ncat
-    vim-enhanced
     gcc-c++
 )
 # remmina
 # remmina-plugins-rdp
-
-GEMS=(
-    beaker
-    beaker-rspec
-    bundler
-    puppet-lint
-    puppet-syntax
-    puppet_facts
-    rspec-puppet
-    puppetlabs_spec_helper
-)
 
 # This is a note, not currently used to install packages
 # https://packagecontrol.io/installation#st2
@@ -95,23 +77,12 @@ Sublime_Packages=(
 function main {
     case $ID in
       [uU]buntu|[dD]ebian)
-        /usr/bin/apt-get -qq -y install wget;
-        PUPPET_URL="http://apt.puppetlabs.com";
-        PUPPET_REPO="puppetlabs-release-$(lsb_release -c -s).deb";
         debian_packages
       ;;
       [cC]ent[oO][sS]|[rR]ed[hH]at)
-        yum install -y -q wget
-        [[ -z "$VERSION_ID" ]] && VERSION_ID=6
-        PUPPET_URL="http://yum.puppetlabs.com";
-        PUPPET_REPO="puppetlabs-release-el-${VERSION_ID}.noarch.rpm";
         rhel_packages
       ;;
       [fF]edora)
-        yum install -y -q wget
-
-        PUPPET_URL="http://yum.puppetlabs.com";
-        PUPPET_REPO="puppetlabs-release-fedora-${VERSION_ID}.noarch.rpm";
         fedora_packages
 
         # subpixel rendinging from freetype-freeworld, may not be necessary
@@ -129,19 +100,6 @@ function main {
 
     source ~/.bashrc
 
-    # Puppet development tools
-    /usr/bin/gem install ${GEMS[@]} --no-rdoc --no-ri
-
-    if [[ ! -z $XORG ]] ; then
-        # Install sublime
-        wget https://gist.githubusercontent.com/henriquemoody/3288681/raw/dc9276c8caa1dfcbebb73af960738eff2ca0a4d7/sublime-text-2.sh -O ~/Downloads/sublime-text-2-install.sh
-        chmod +x ~/Downloads/sublime-text-2-install.sh
-        ~/Downloads/sublime-text-2-install.sh
-
-        # install configs for sublime
-        cp sublime/* ~/.config/sublime-text-2/Packages/User/.
-    fi
-
     docker_config
 
 }
@@ -152,9 +110,6 @@ function debian_packages {
     APT_OPTS='-qq -y'
     echo force-confold >> /etc/dpkg/dpkg.cfg.d/force_confold;
     echo 'Dpkg::Options{"--force-confdef";"--force-confold";}' >> /etc/apt/apt.conf.d/local
-
-    /usr/bin/wget -O /tmp/$PUPPET_REPO $PUPPET_URL/$PUPPET_REPO 2>&1 >/dev/null;
-    /usr/bin/dpkg -i /tmp/$PUPPET_REPO  2>&1 >/dev/null;
 
     # Docker repository
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys
@@ -168,8 +123,6 @@ function debian_packages {
 }
 
 function rhel_packages {
-    /usr/bin/wget -O /tmp/$PUPPET_REPO $PUPPET_URL/$PUPPET_REPO 2>&1 >/dev/null;
-    rpm -i /tmp/$PUPPET_REPO  2>&1 >/dev/null;
 
     rhel_docker_repo
 
@@ -180,8 +133,6 @@ function rhel_packages {
 }
 
 function fedora_packages {
-    /usr/bin/wget -O /tmp/$PUPPET_REPO $PUPPET_URL/$PUPPET_REPO 2>&1 >/dev/null;
-    rpm -i /tmp/$PUPPET_REPO
 
     if [[ ! -z $XORG ]] ; then
         # RPM Fusion for freetype
@@ -196,6 +147,7 @@ function fedora_packages {
 
     dnf upgrade -q -y 2>&1 >/dev/null;
     dnf install -q -y ${PKGS[@]}  2>&1 >/dev/null;
+    dnf install -q -y ${RHEL_PKGS[@]}  2>&1 >/dev/null;
     dnf install -q -y ${FEDORA_PKGS[@]}  2>&1 >/dev/null;
 
 }
