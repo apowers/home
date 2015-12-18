@@ -1,16 +1,16 @@
 # Bash Home Environment
-
 Ubuntu/Debian, CentOS, Fedora
+
 * Configures Bash profile, Vim, etc.
 * Install ruby and python development libraries.
-* Install Docker and Vagrant
+* Install Docker and Vagrant.
 * Install many other admin packages.
 
     setup_home.sh
 
 My prompt tries to strike a balance between brevity and usefullness.
 
-    [exit-code](HH:MM:SS)user@host:directory/#>
+    [exit-code](HH:MM:SS)user@host:directory/$>
 
 If you are in a git or hg repository it will show you which branch you are on.
 
@@ -26,12 +26,14 @@ Ubuntu/Debian, CentOS, Fedora, FreeBSD
 xfce4
 
 Use a window theme with larger borders for easier grabbing.
+
 Settings -> Window Manager -> Style: Default
+
 Note: You can also resize with ALT+R-click+drag
 
 # Sublime Text
+Ubuntu
 
-Ubuntu Only
 * Install Sublime 3 PPA
 * Install Sublime 3
 * Install settings files
@@ -40,8 +42,7 @@ Ubuntu Only
 
 ## Additional Configuration
 
-Install Package Control
-    https://packagecontrol.io/installation
+Install Package Control from: https://packagecontrol.io/installation
 Sublime may need to restart several times.
 
 CTRL+SHIFT+P, "Package Control: Install Package",
@@ -56,6 +57,7 @@ Open the Folders tree:
     File -> Open Folder
 
 # Puppet
+Ubuntu/Debian, CentOS, Fedora
 
 * Install Puppet
 * Install Gems for Beaker, puppet-lint, rspec-puppet
