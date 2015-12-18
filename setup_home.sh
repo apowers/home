@@ -100,8 +100,6 @@ function main {
 
     source ~/.bashrc
 
-    docker_config
-
 }
 
 function debian_packages {
@@ -130,6 +128,8 @@ function rhel_packages {
     yum install -q -y ${PKGS[@]}  2>&1 >/dev/null;
     yum install -q -y ${RHEL_PKGS[@]}  2>&1 >/dev/null;
 
+    docker_config
+
 }
 
 function fedora_packages {
@@ -149,6 +149,8 @@ function fedora_packages {
     dnf install -q -y ${PKGS[@]}  2>&1 >/dev/null;
     dnf install -q -y ${RHEL_PKGS[@]}  2>&1 >/dev/null;
     dnf install -q -y ${FEDORA_PKGS[@]}  2>&1 >/dev/null;
+
+    docker_config
 
 }
 
