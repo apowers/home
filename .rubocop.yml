@@ -1,0 +1,15 @@
+# Configure RuboCop
+# https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/fixtures/**/*'
+#  DefaultFormatter: emacs ## https://github.com/bbatsov/rubocop/issues/2253
+
+Style/Encoding:
+  Enabled: true
+
+Metrics/LineLength:
+  MaxLineLength: 100
+#  Enabled: false

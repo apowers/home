@@ -47,11 +47,19 @@ Sublime may need to restart several times.
 
 CTRL+SHIFT+P, "Package Control: Install Package",
 
-* Puppet
-* Sublimelint
 * GitGutter
-* SublimeYammy
+* SideBarEnhancements
+* SublimeLinter
+* RuboCop
+* Alignment (?)
+* Syntax Matcher (?)
+* Pretty YAML (?)
+* Pretty JSON (?)
+* JSON Lint (?)
 * Rspec
+* Puppet
+* Chef
+* Chefspec
 
 Open the Folders tree:
     File -> Open Folder

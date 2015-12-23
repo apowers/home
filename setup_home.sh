@@ -67,11 +67,8 @@ FEDORA_PKGS=(
 # remmina
 # remmina-plugins-rdp
 
-# This is a note, not currently used to install packages
-# https://packagecontrol.io/installation#st2
-Sublime_Packages=(
-    SublimeYammy
-    Rspec
+GEMS=(
+    rubocop
 )
 
 function main {
@@ -89,16 +86,19 @@ function main {
         #echo "Xft.lcdfilter: lcddefault" > ~/.Xresources
       ;;
       *)
-        echo "Unsupported Operating System $ID"
+        echo "Unsupported Operating System: $ID"
         exit 3
     esac
 
     # Install dotfiles
-    for F in .bashrc .profile .inputrc .vimrc .dircolors .tmux.conf .gitconfig ; do
-      wget --no-check-certificate https://raw.github.com/apowers/home/master/$F -O ~/$F
+    for F in .bashrc .profile .inputrc .vimrc .dircolors .tmux.conf .gitconfig .rubocop.yml ; do
+      eval wget --no-check-certificate https://raw.github.com/apowers/home/master/$F -O ~${SUDO_USER}/$F
     done
 
     source ~/.bashrc
+
+    # Ruby Gems
+    /usr/bin/gem install ${GEMS[@]} --no-rdoc --no-ri
 
 }
 

@@ -1,10 +1,10 @@
 [user]
-	email = atom.powers@gmail.com
-	name = Atom Powers
+  email = atom.powers@gmail.com
+  name = Atom Powers
 [push]
-	default = current
+  default = current
 [core]
-	pager = less -r
+  pager = less -r
 [branch]
   autosetuprebase = always
 [alias]
