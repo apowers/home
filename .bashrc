@@ -27,6 +27,8 @@ OSREL=`uname -s`
 export PATH HISTCONTROL HISTSIZE HISTFILESIZE
 export EDITOR PAGER LESS EXINIT
 export FTP_PASSIVE_MODE=true
+export TZ='America/Los_Angeles'
+
 case $OSREL in
   FreeBSD)
     export LANG='en_US.UTF-8'

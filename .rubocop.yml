@@ -5,7 +5,8 @@ AllCops:
   Exclude:
     - 'vendor/**/*'
     - 'spec/fixtures/**/*'
-#  DefaultFormatter: emacs ## https://github.com/bbatsov/rubocop/issues/2253
+
+DefaultFormatter: emacs
 
 Style/Encoding:
   Enabled: true

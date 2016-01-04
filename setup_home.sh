@@ -31,7 +31,6 @@ PKGS=(
     mercurial
     nmap
     perl
-    python-devel
     rsync
     tmux
     traceroute
@@ -47,6 +46,7 @@ DEB_PKGS=(
     libxslt-dev
     lxc-docker
     nc
+    python-devel
     ruby-dev
     vim-athena
 )
@@ -57,6 +57,7 @@ RHEL_PKGS=(
     kernel-devel
     kernel-headers
     nmap-ncat
+    python-devel
     ruby-devel
     vim-enhanced
 )
@@ -64,6 +65,13 @@ RHEL_PKGS=(
 FEDORA_PKGS=(
     gcc-c++
 )
+
+ARCH_PKGS=(
+    docker
+    python
+    ruby
+)
+
 # remmina
 # remmina-plugins-rdp
 
@@ -75,16 +83,19 @@ function main {
     case $ID in
       [uU]buntu|[dD]ebian)
         debian_packages
-      ;;
+        ;;
       [cC]ent[oO][sS]|[rR]ed[hH]at)
         rhel_packages
-      ;;
+        ;;
       [fF]edora)
         fedora_packages
 
         # subpixel rendinging from freetype-freeworld, may not be necessary
         #echo "Xft.lcdfilter: lcddefault" > ~/.Xresources
       ;;
+      [Aa]rch)
+        arch_packages
+        ;;
       *)
         echo "Unsupported Operating System: $ID"
         exit 3
@@ -100,6 +111,11 @@ function main {
     # Ruby Gems
     /usr/bin/gem install ${GEMS[@]} --no-rdoc --no-ri
 
+}
+
+function arch_packages {
+    /usr/bin/pacman -S --noconfirm ${PKGS[@]}  2>&1 >/dev/null;
+    /usr/bin/pacman -S --noconfirm ${ARCH_PKGS[@]}  2>&1 >/dev/null;
 }
 
 function debian_packages {
