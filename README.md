@@ -32,7 +32,7 @@ Settings -> Window Manager -> Style: Default
 Note: You can also resize with ALT+R-click+drag
 
 # Sublime Text
-Ubuntu
+Ubuntu, Arch
 
 * Install Sublime 3 PPA
 * Install Sublime 3

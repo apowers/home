@@ -12,7 +12,7 @@
 [[ -r ~/.inputrc ]] && bind -f ~/.inputrc
 
 # enviroment variables
-[[ -r /etc/os-release ]] && /etc/os-release
+[[ -r /etc/os-release ]] && source /etc/os-release
 PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:$PATH"
 HISTCONTROL=ignoreboth:erasedups
 HISTSIZE=10000
@@ -37,7 +37,11 @@ case $OSREL in
     export LSCOLORS=ExFxBxDxCxegedabagacad
     ;;
   Linux)
-    export LANG='en_US.utf8'
+    if [ "$ID" == "arch" ];then
+    export LANG='en_US.UTF-8'
+    else
+      export LANG='en_US.utf8'
+    fi
     [[ -x /usr/bin/dircolors ]] && /usr/bin/dircolors >/dev/null
     [[ -x ~/.dircolors ]] && ~/.dircolors >/dev/null
     [[ -d /usr/src/kernels/$(uname -r) ]] && export KERN_DIR=/usr/src/kernels/$(uname -r)

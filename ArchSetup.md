@@ -58,15 +58,21 @@ Arch Linux Setup Notes
     vboxsf
     vboxvideo
     EOF
+    echo en_US.UTF-8 UTF-8 > /etc/locale.gen
+    locale-gen
 
     pacman -S --noconfirm xfce4 wget
-    useradd -m -G wheel -s /bin/bash apowers
+    useradd -m -G wheel apowers
     visudo
     cd ~apowers
     wget --no-check-certificate https://raw.github.com/apowers/home/master/setup_home.sh
     chmod +x setup_home.sh
     ./setup_home.sh
-    wget --no-check-certificate https://raw.github.com/apowers/home/master/.xinitrc
+
+
+# Setup X (TODO: Automate)
+* Settings -> Keyboard -> Layout -> English/English(Dvorak)
+* Terminal -> Edit -> Preferences -> Appearance -> Monospace 9
 
 See Also:
 * https://wiki.archlinux.org/index.php/ZFS

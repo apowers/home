@@ -68,10 +68,12 @@ FEDORA_PKGS=(
 
 ARCH_PKGS=(
     docker
+    mlocate
     python
     ruby
 )
 
+# RDP app
 # remmina
 # remmina-plugins-rdp
 
@@ -111,11 +113,14 @@ function main {
     # Ruby Gems
     /usr/bin/gem install ${GEMS[@]} --no-rdoc --no-ri
 
+    eval chown -R ${SUDO_USER} ~${SUDO_USER}
+
 }
 
 function arch_packages {
     /usr/bin/pacman -S --noconfirm ${PKGS[@]}  2>&1 >/dev/null;
     /usr/bin/pacman -S --noconfirm ${ARCH_PKGS[@]}  2>&1 >/dev/null;
+    eval wget --no-check-certificate https://raw.github.com/apowers/home/master/.xinitrc -O ~${SUDO_USER}/.xinitrc
 }
 
 function debian_packages {
