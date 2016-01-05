@@ -10,14 +10,14 @@ References:
 
 1. In VirtualBox: System -> Motherboard -> Enable EFI
 1. From ISO: Boot Arch x86_64
-```
+    ```
     loadkeys dvorak
-    parted /dev/sda
-    mklabel gpt
-    mkpart ESP fat32 1MiB 512MiB
-    mkpart primary xfs 100%
-    set 1 boot on
-    quit
+      parted /dev/sda
+      mklabel gpt
+      mkpart ESP fat32 1MiB 512MiB
+      mkpart primary xfs 100%
+      set 1 boot on
+      quit
     mkfs.fat -F32 /dev/sda1
     mkfs.xfs /dev/sda2
     mount /dev/sda2 /mnt
@@ -45,10 +45,10 @@ References:
     systemctl enable dhcpcd@enp0s3.service
     exit
     reboot
-```
+    ```
 1. Unmount Boot ISO
 1. Setup OS
-```
+    ```
     pacman -Syy
     pacman -S --noconfirm wget
 
@@ -59,7 +59,7 @@ References:
     ./setup_home.sh
 
     pacman -S --noconfirm xfce4
-```
+    ```
 1. Extra setup from README.md
 
 See Also:
