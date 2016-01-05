@@ -1,15 +1,16 @@
-Arch Linux Setup Notes
+# Arch Linux Setup Notes
 
 * Virtual Box development workstation
 * Single file system
 * xfce4 graphical environment
 
+References:
 * https://wiki.archlinux.org/index.php/Installation_guide
 * https://wiki.archlinux.org/index.php/Beginners%27_guide
 
-# In VirtualBox: System -> Motherboard -> Enable EFI
-# From ISO: Boot Arch x86_64
-
+1. In VirtualBox: System -> Motherboard -> Enable EFI
+1. From ISO: Boot Arch x86_64
+```
     loadkeys dvorak
     parted /dev/sda
     mklabel gpt
@@ -44,10 +45,10 @@ Arch Linux Setup Notes
     systemctl enable dhcpcd@enp0s3.service
     exit
     reboot
-
-# Unmount Boot ISO
-# Setup OS
-
+```
+1. Unmount Boot ISO
+1. Setup OS
+```
     pacman -Syy
     pacman -S --noconfirm wget
 
@@ -58,8 +59,8 @@ Arch Linux Setup Notes
     ./setup_home.sh
 
     pacman -S --noconfirm xfce4
-
-# Extra setup from README.md
+```
+1. Extra setup from README.md
 
 See Also:
 * https://wiki.archlinux.org/index.php/ZFS
