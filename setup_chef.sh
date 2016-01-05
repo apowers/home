@@ -39,11 +39,13 @@ function main {
         ;;
     [Aa]rch)
         gem source --add https://packagecloud.io/chef/stable/
-        gem install --no-rdoc --no-ri chef
-        wget https://aur.archlinux.org/cgit/aur.git/snapshot/chef-dk.tar.gz -O /tmp/chef-dk.tar.gz
-        tar -C /tmp -xf /tmp/chef-dk.tar.gz
-        cd /tmp/chef-dk
-        makepkg -sri --noconfirm
+        apacman -S --noconfirm chef-dk
+
+#        gem install --no-rdoc --no-ri chef
+#        wget https://aur.archlinux.org/cgit/aur.git/snapshot/chef-dk.tar.gz -O /tmp/chef-dk.tar.gz
+#        tar -C /tmp -xf /tmp/chef-dk.tar.gz
+#        cd /tmp/chef-dk
+#        makepkg -sri --noconfirm
         exit
         ;;
     *)

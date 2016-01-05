@@ -196,6 +196,13 @@ function arch_packages {
     /usr/bin/pacman -S --noconfirm ${ARCH_PKGS[@]}  2>&1 >/dev/null;
     eval wget --no-check-certificate https://raw.github.com/apowers/home/master/.xinitrc -O ~${SUDO_USER}/.xinitrc
 
+    # AUR package manager
+    cd /tmp
+    wget -k https://aur.archlinux.org/cgit/aur.git/snapshot/apacman.tar.gz
+    tar  -xf /tmp/apacman.tar.gz
+    cd apacman
+    makepkg -rsi --noconfirm
+
     echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
     # Language

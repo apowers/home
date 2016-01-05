@@ -1,5 +1,15 @@
 #!/bin/bash
-[[ -r /etc/os-release ]] && source /etc/os-release
+
+if [[ $(id -u) != 0 ]]; then
+    echo "Must be root to install packages"
+    exit 2
+fi
+
+if [[ -f '/etc/os-release' ]]; then
+    source /etc/os-release
+else
+    ID=$(cat /etc/issue | head -1 | cut -f1 -d " ")
+fi
 
 case $ID in
   [Uu]buntu)
@@ -12,10 +22,11 @@ case $ID in
   [Aa]rch)
 #    echo Incomplete Setup on $ID for Sublime-text-2
 #    wget -k https://aur.archlinux.org/cgit/aur.git/snapshot/sublime-text.tar.gz -O /tmp/sublime-text.tar.gz
-    wget -k https://aur.archlinux.org/cgit/aur.git/snapshot/sublime-text-nightly.tar.gz -O /tmp/sublime-text-nightly.tar.gz
-    tar -C /tmp -xf /tmp/sublime-text-nightly.tar.gz
-    cd /tmp/sublime-text-nightly
-    makepkg -sri --noconfirm
+    apacman sublime-text-nightly
+#    wget -k https://aur.archlinux.org/cgit/aur.git/snapshot/sublime-text-nightly.tar.gz -O /tmp/sublime-text-nightly.tar.gz
+#    tar -C /tmp -xf /tmp/sublime-text-nightly.tar.gz
+#    cd /tmp/sublime-text-nightly
+#    makepkg -sri --noconfirm
     ;;
   *)
     echo Not Supported on $ID

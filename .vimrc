@@ -4,7 +4,7 @@ set backspace=indent,eol,start "allow backspacing over everything in insert mode
 set autoread "update file if it has change on disk
 
 " spaces for indenting and tab stops
-set shiftwidth=2
+set shiftwidth=0
 set tabstop=2
 set expandtab "Spaces instead of tabs
 

@@ -12,7 +12,7 @@ References:
 1. From ISO: Boot Arch x86_64
     ```
     loadkeys dvorak
-      parted /dev/sda
+    parted /dev/sda
       mklabel gpt
       mkpart ESP fat32 1MiB 512MiB
       mkpart primary xfs 100%
