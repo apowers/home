@@ -10,15 +10,15 @@ References:
 
 1. In VirtualBox: System -> Motherboard -> Enable EFI
 1. From ISO: Boot Arch x86_64
-
     ```
     loadkeys dvorak
-    parted /dev/sda
-    mklabel gpt
-    mkpart ESP fat32 1MiB 512MiB
-    mkpart primary xfs 100%
-    set 1 boot on
-    quit
+      parted /dev/sda
+      mklabel gpt
+      mkpart ESP fat32 1MiB 512MiB
+      mkpart primary xfs 100%
+      set 1 boot on
+      quit
+
     mkfs.fat -F32 /dev/sda1
     mkfs.xfs /dev/sda2
     mount /dev/sda2 /mnt
@@ -31,7 +31,6 @@ References:
     echo apowers01 > /etc/hostname
     echo KEYMAP=dvorak >> /etc/vconsole.conf
     hwclock --systohc --utc
-    export TZ='America/Los_Angeles' >> .profile
     ln -s /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
     echo > /boot/loader/entries/arch.conf << EOF
     title          Arch Linux
