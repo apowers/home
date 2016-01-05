@@ -70,6 +70,7 @@ ARCH_PKGS=(
     mlocate
     python
     ruby
+    dina-font
 )
 
 # RDP app

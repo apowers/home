@@ -30,8 +30,10 @@ Use a window theme with larger borders for easier grabbing.
 
 * Settings -> Window Manager -> Style: Default
 * Settings -> Keyboard -> Layout -> English/English(Dvorak)
-* Terminal -> Edit -> Preferences -> Appearance -> DejaVu Sans Mono Book 9
 * Terminal -> Edit -> Preferences -> Colors -> Text Color -> #AFAFAF
+* Terminal -> Edit -> Preferences -> Appearance ->
+** Ubuntu: DejaVu Sans Mono Book 9
+** Arch: Dina 9
 
 Note: You can also resize with ALT+R + click-drag
 
