@@ -96,7 +96,7 @@ function user_prompt {
 case $TERM in
 xterm*|screen*)
 # save the history on every prompt
-  export PS1="$(history -a)[\[\033[0;33m\]\$?\[\033[m\]](\t)$(user_prompt):\[\033[0;36m\]\w/\[\033[m\]\[\033[0;94m\]\$(branch)\[\033[m\]\\$>"
+  export PS1="$(history -a)[\[\033[0;33m\]\$?\[\033[m\]](\t)$(user_prompt):\w/\[\033[0;94m\]\$(branch)\[\033[m\]\\$>"
   ;;
 *)
   PS1="$(history -a)$(history -n)[\$?](\t)\u@\h:\w\\$>"
