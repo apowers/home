@@ -19,7 +19,7 @@ HISTSIZE=10000
 HISTFILESIZE=20000
 EDITOR=vim
 PAGER=less
-LESS='-Misc'
+LESS='-McRis'
 EXINIT='set number'
 OSREL=`uname -s`
 
@@ -38,7 +38,7 @@ case $OSREL in
     ;;
   Linux)
     if [ "$ID" == "arch" ];then
-    export LANG='en_US.UTF-8'
+      export LANG='en_US.UTF-8'
     else
       export LANG='en_US.utf8'
     fi
@@ -82,13 +82,21 @@ function branch {
 function title { printf "\033k$1\033\\"; }
 title $(hostname -s)
 
+function user_prompt {
+# root username is red
+  if [[ $(id -u) != 0 ]] ; then
+    echo -n "\[\033[0;32m\]\u@\h\[\033[m\]"
+  else
+    echo -n "\[\033[0;31m\]\u@\h\[\033[m\]"
+  fi
+}
 # show last exit code, time, user, hostname, directory, git branch, prompt
-# color prompt for xterm
+# color prompt for xterm (or check `tput colors`)
+# Note: in some terminals if the '@' symbol is in a light color it looks like the copywright symbol.
 case $TERM in
 xterm*|screen*)
 # save the history on every prompt
-  PS1="$(history -a)[\[\033[0;33m\]\$?\[\033[m\]](\t)\[\033[01;34m\]\u@\h\[\033[m\]:\[\033[0;32m\]\w/\[\033[m\]\[\033[0;36m\]\$(branch)\[\033[m\]\\$>"
-#  PS1="[\[\033[0;33m\]\$?\[\033[m\]](\t)\[\033[01;34m\]\u@\h\[\033[m\]:\[\033[0;32m\]\w/\[\033[m\]\[\033[0;36m\]\$(branch)\[\033[m\]\\$>"
+  export PS1="$(history -a)[\[\033[0;33m\]\$?\[\033[m\]](\t)$(user_prompt):\[\033[0;36m\]\w/\[\033[m\]\[\033[0;94m\]\$(branch)\[\033[m\]\\$>"
   ;;
 *)
   PS1="$(history -a)$(history -n)[\$?](\t)\u@\h:\w\\$>"

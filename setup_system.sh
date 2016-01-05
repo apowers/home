@@ -108,6 +108,7 @@ function main {
       eval wget --no-check-certificate https://raw.github.com/apowers/home/master/$F -O ~${SUDO_USER}/$F
     done
 
+    eval cp ~${SUDO_USER}/.bashrc /root/.bashrc
     source ~/.bashrc
 
     # Ruby Gems
