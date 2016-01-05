@@ -10,6 +10,7 @@ References:
 
 1. In VirtualBox: System -> Motherboard -> Enable EFI
 1. From ISO: Boot Arch x86_64
+
     ```
     loadkeys dvorak
     parted /dev/sda
