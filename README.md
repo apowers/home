@@ -1,10 +1,7 @@
-# Bash Home Environment
-Ubuntu/Debian, CentOS, Fedora
+## Bash Home Environment
+Any
 
-* Configures Bash profile, Vim, etc.
-* Install ruby and python development libraries.
-* Install Docker and Vagrant.
-* Install many other admin packages.
+* Configures Bash profile, Vim, tmux, git, rubocop, etc.
 
     setup_home.sh
 
@@ -17,19 +14,26 @@ If you are in a git or hg repository it will show you which branch you are on.
     [0](00:00:00)user@host:directory/{branch}$>
 
 
-## Minimal Installation
-Ubuntu/Debian, CentOS, Fedora, FreeBSD
+# Development Environment
+Ubuntu/Debian, CentOS, Fedora, Arch
 
-    for F in .bashrc .profile .inputrc .vimrc;do wget --no-check-certificate https://raw.github.com/apowers/home/master/$F -O ~/$F;done
+* Install ruby and python development libraries.
+* Install Docker and Vagrant.
+* Install many other useful packages.
+
+    setup_system.sh
 
 ## Additional Configuration
-xfce4
+Install xfce4
 
 Use a window theme with larger borders for easier grabbing.
 
-Settings -> Window Manager -> Style: Default
+* Settings -> Window Manager -> Style: Default
+* Settings -> Keyboard -> Layout -> English/English(Dvorak)
+* Terminal -> Edit -> Preferences -> Appearance -> DejaVu Sans Mono Book 9
+* Terminal -> Edit -> Preferences -> Colors -> Text Color -> #AFAFAF
 
-Note: You can also resize with ALT+R-click+drag
+Note: You can also resize with ALT+R + click-drag
 
 # Sublime Text
 Ubuntu, Arch
@@ -73,5 +77,11 @@ Ubuntu/Debian, CentOS, Fedora
     setup_puppet.sh
 
 # Chef
+Ubuntu/Debian, CentOS, Fedorao, Arch
+Any (Chef only via RubyGems)
 
-TODO
+* Install Chef Repo
+* Install Chef Standalone, Chef DevKit
+
+    setup_chef.sh
+

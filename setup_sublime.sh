@@ -15,7 +15,7 @@ case $ID in
     wget -k https://aur.archlinux.org/cgit/aur.git/snapshot/sublime-text-nightly.tar.gz -O /tmp/sublime-text-nightly.tar.gz
     tar -C /tmp -xf /tmp/sublime-text-nightly.tar.gz
     cd /tmp/sublime-text-nightly
-    mkepkg -sri --noconfirm
+    makepkg -sri --noconfirm
     ;;
   *)
     echo Not Supported on $ID
