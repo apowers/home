@@ -82,34 +82,37 @@ GEMS=(
 )
 
 function main {
-    case $ID in
-      [uU]buntu|[dD]ebian)
-        debian_packages
-        ;;
-      [cC]ent[oO][sS]|[rR]ed[hH]at)
-        rhel_packages
-        ;;
-      [fF]edora)
-        fedora_packages
-
-        # subpixel rendinging from freetype-freeworld, may not be necessary
-        #echo "Xft.lcdfilter: lcddefault" > ~/.Xresources
-      ;;
-      [Aa]rch)
-        arch_packages
-        ;;
-      *)
-        echo "Unsupported Operating System: $ID"
-        exit 3
-    esac
-
     # Install dotfiles
     for F in .bashrc .profile .inputrc .vimrc .dircolors .tmux.conf .gitconfig .rubocop.yml ; do
       eval wget --no-check-certificate https://raw.github.com/apowers/home/master/$F -O ~${SUDO_USER}/$F
     done
 
-    eval cp ~${SUDO_USER}/.bashrc /root/.bashrc
     source ~/.bashrc
+
+    case $ID in
+      [Aa]rch)
+        arch_packages
+        eval cp -f ~${SUDO_USER}/.bashrc /etc/bash.bashrc
+        ;;
+      [uU]buntu|[dD]ebian)
+        debian_packages
+        eval cp -f ~${SUDO_USER}/.bashrc /etc/bash.bashrc
+        ;;
+      [cC]ent[oO][sS]|[rR]ed[hH]at)
+        rhel_packages
+        eval cp -f ~${SUDO_USER}/.bashrc /etc/bashrc
+        ;;
+      [fF]edora)
+        fedora_packages
+        eval cp -f ~${SUDO_USER}/.bashrc /etc/bashrc
+
+        # subpixel rendinging from freetype-freeworld, may not be necessary
+        #echo "Xft.lcdfilter: lcddefault" > ~/.Xresources
+        ;;
+      *)
+        echo "Unsupported Operating System: $ID"
+        exit 3
+    esac
 
     # Ruby Gems
     /usr/bin/gem install ${GEMS[@]} --no-rdoc --no-ri

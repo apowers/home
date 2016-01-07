@@ -84,10 +84,10 @@ title $(hostname -s)
 
 function user_prompt {
 # root username is red
-  if [[ $(id -u) != 0 ]] ; then
-    echo -n "\[\033[0;32m\]\u@\h\[\033[m\]"
-  else
+  if [[ $(id -u) == 0 ]] ; then
     echo -n "\[\033[0;31m\]\u@\h\[\033[m\]"
+  else
+    echo -n "\[\033[0;32m\]\u@\h\[\033[m\]"
   fi
 }
 # show last exit code, time, user, hostname, directory, git branch, prompt
@@ -105,10 +105,7 @@ esac
 
 #Color grep output
 alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-
-alias less='less -NMisc'
+alias less='less -NMiscR'
 alias sudo='sudo '
 
 # OS dependent aliases
