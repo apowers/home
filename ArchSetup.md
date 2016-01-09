@@ -1,7 +1,7 @@
 # Arch Linux Setup Notes
 
 * Virtual Box development workstation
-* Single file system
+* Single xfs file system; for a vbox dev system we don't need a fancy FS.
 * xfce4 graphical environment
 
 References:
@@ -14,8 +14,8 @@ References:
     loadkeys dvorak
     parted /dev/sda
       mklabel gpt
-      mkpart ESP fat32 1MiB 512MiB
-      mkpart primary xfs 100%
+      mkpart ESP fat32 1MiB 512M
+      mkpart primary xfs 512M 100%
       set 1 boot on
       quit
 
@@ -27,40 +27,37 @@ References:
     pacstrap /mnt base base-devel
     genfstab /mnt >> /mnt/etc/fstab
     arch-chroot /mnt
-    passwd root
-    echo apowers01 > /etc/hostname
-    echo KEYMAP=dvorak >> /etc/vconsole.conf
-    hwclock --systohc --utc
-    ln -s /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
-    echo > /boot/loader/entries/arch.conf << EOF
+    bootctl install
+    cat > /boot/loader/entries/arch.conf << EOF
     title          Arch Linux
     linux          /vmlinuz-linux
     initrd         /initramfs-linux.img
     options        root=/dev/sda2 rw
     EOF
-    echo > /boot/loader/loader.conf << EOF
+    cat > /boot/loader/loader.conf << EOF
     timeout 3
     defalut arch
     EOF
+    passwd root
+    echo arch01 > /etc/hostname
+    echo KEYMAP=dvorak >> /etc/vconsole.conf
+    hwclock --systohc --utc
+    ln -s /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
     systemctl enable dhcpcd@enp0s3.service
     exit
     reboot
     ```
-1. Unmount Boot ISO
-1. Setup OS
+2. Setup OS
     ```
     pacman -Syy
-    pacman -S --noconfirm wget
+    pacman -S --noconfirm wget xorg-server xfce4
 
     useradd -m -G wheel apowers
     cd ~apowers
-    wget --no-check-certificate https://raw.github.com/apowers/home/master/setup_home.sh
-    chmod +x setup_home.sh
-    ./setup_home.sh
-
-    pacman -S --noconfirm xfce4
+    wget https://raw.github.com/apowers/home/master/setup_home.sh
+    sh setup_home.sh
     ```
-1. Extra setup from README.md
+3. Unmount Boot ISO
+4. Install SSH keys
+5. Extra setup from README.md
 
-See Also:
-* https://wiki.archlinux.org/index.php/ZFS

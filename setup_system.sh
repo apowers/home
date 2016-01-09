@@ -71,6 +71,8 @@ ARCH_PKGS=(
     python
     ruby
     dina-font
+    vim
+    openssh
 )
 
 # RDP app
@@ -92,19 +94,15 @@ function main {
     case $ID in
       [Aa]rch)
         arch_packages
-        eval cp -f ~${SUDO_USER}/.bashrc /etc/bash.bashrc
         ;;
       [uU]buntu|[dD]ebian)
         debian_packages
-        eval cp -f ~${SUDO_USER}/.bashrc /etc/bash.bashrc
         ;;
       [cC]ent[oO][sS]|[rR]ed[hH]at)
         rhel_packages
-        eval cp -f ~${SUDO_USER}/.bashrc /etc/bashrc
         ;;
       [fF]edora)
         fedora_packages
-        eval cp -f ~${SUDO_USER}/.bashrc /etc/bashrc
 
         # subpixel rendinging from freetype-freeworld, may not be necessary
         #echo "Xft.lcdfilter: lcddefault" > ~/.Xresources
@@ -132,9 +130,9 @@ function debian_packages {
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys
     echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
 
-    /usr/bin/apt-get ${APT_OPTS} upgrade 2>&1 >/dev/null;
-    /usr/bin/apt-get ${APT_OPTS} install ${PKGS[@]} 2>&1 >/dev/null;
-    /usr/bin/apt-get ${APT_OPTS} install ${DEB_PKGS[@]} 2>&1 >/dev/null;
+    /usr/bin/apt-get ${APT_OPTS} upgrade 
+    /usr/bin/apt-get ${APT_OPTS} install ${PKGS[@]}
+    /usr/bin/apt-get ${APT_OPTS} install ${DEB_PKGS[@]}
 
     unset RUNLEVEL
 }
@@ -206,7 +204,8 @@ function arch_packages {
     wget -k https://aur.archlinux.org/cgit/aur.git/snapshot/apacman.tar.gz
     tar  -xf /tmp/apacman.tar.gz
     cd apacman
-    makepkg -rsi --noconfirm
+    chown nobody .
+    sudo -u nobody makepkg -rsi --noconfirm
 
     echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
