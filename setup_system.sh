@@ -86,7 +86,7 @@ GEMS=(
 function main {
     # Install dotfiles
     for F in .bashrc .profile .inputrc .vimrc .dircolors .tmux.conf .gitconfig .rubocop.yml ; do
-      eval wget --no-check-certificate https://raw.github.com/apowers/home/master/$F -O ~${SUDO_USER}/$F
+      wget --no-check-certificate https://raw.github.com/apowers/home/master/$F -O /etc/skel/$F
     done
 
     source ~/.bashrc
@@ -199,15 +199,16 @@ function arch_packages {
     /usr/bin/pacman -S --noconfirm ${ARCH_PKGS[@]}  2>&1 >/dev/null;
     eval wget --no-check-certificate https://raw.github.com/apowers/home/master/.xinitrc -O ~${SUDO_USER}/.xinitrc
 
+    /bin/updatedb
+    echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
+
     # AUR package manager
     cd /tmp
     wget -k https://aur.archlinux.org/cgit/aur.git/snapshot/apacman.tar.gz
     tar  -xf /tmp/apacman.tar.gz
-    cd apacman
+    cd /tmp/apacman
     chown nobody .
     sudo -u nobody makepkg -rsi --noconfirm
-
-    echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
     # Language
     echo en_US.UTF-8 UTF-8 > /etc/locale.gen

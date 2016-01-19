@@ -23,7 +23,12 @@ Ubuntu/Debian, CentOS, Fedora, Arch
 
     setup_system.sh
 
-## Additional Configuration
+## VirtualBox Shared Folder
+echo 'Documents /home/apowers/Documents vboxsf rw,uid=1000,gid=1000,noauto 0 0' >> /etc/fstab
+mkdir -p ~/.profile.d
+echo 'sudo mount Documents' > ~/.profile.d/mount_documents.sh
+
+## Window Manager
 Install xfce4
 
 Use a window theme with larger borders for easier grabbing.

@@ -44,20 +44,21 @@ References:
     hwclock --systohc --utc
     ln -s /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
     systemctl enable dhcpcd@enp0s3.service
+
+    pacman -Syy
+    pacman -S wget xorg-server xfce4
+
+    wget https://raw.github.com/apowers/home/master/setup_system.sh
+    sh setup_system.sh
+
+    useradd -m -N -g wheel apowers
+    passwd apowers
+
     exit
     reboot
     ```
-2. Setup OS
-    ```
-    pacman -Syy
-    pacman -S --noconfirm wget xorg-server xfce4
-
-    useradd -m -G wheel apowers
-    cd ~apowers
-    wget https://raw.github.com/apowers/home/master/setup_home.sh
-    sh setup_home.sh
-    ```
-3. Unmount Boot ISO
-4. Install SSH keys
-5. Extra setup from README.md
+2. Unmount Boot ISO
+3. Install SSH keys
+4. Extra setup from README.md
+5. Clone github.com/apowers/home and run additional setup scripts.
 

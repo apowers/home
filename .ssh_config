@@ -1,0 +1,5 @@
+Host         github.com
+IdentityFile ~/.ssh/apowers.key
+
+Host         wyrdtech.com
+IdentityFile ~/.ssh/apowers.key
