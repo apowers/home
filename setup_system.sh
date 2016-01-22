@@ -73,6 +73,7 @@ ARCH_PKGS=(
     dina-font
     vim
     openssh
+    bind-tools
 )
 
 # RDP app
