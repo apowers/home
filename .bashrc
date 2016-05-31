@@ -144,15 +144,17 @@ fi
 
 #Load SSH Agent - use `ssh-add` to install keys.
 if [ ! $SSH_AGENT_PID ] ; then
-  if [ -x /usr/bin/ssh-agent ] ; then
-    /usr/bin/ssh-agent $SHELL
+  if which ssh-agent ; then
+    ssh-agent
+    ssh-add ~/.ssh/*.key
+    ssh-add ~/.ssh/*.pem
   fi
 fi
 
 # Load additional user bash configurations
 if test -d ~/.profile.d/; then
   for profile in ~/.profile.d/*.sh; do
-    test -r "$profile" && . "$profile"
+    test -x $profile && . $profile
   done
   unset profile
 fi

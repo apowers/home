@@ -9,10 +9,11 @@
   autosetuprebase = always
 [alias]
   br = checkout -b
-  ci = commit --all
+  ci = commit --all -m
   co = checkout
   rb = rebase master
-  st = status
+  st = status -s
   lg = log --name-status
   ad = add -A
+  rbc = rebase --continue
 

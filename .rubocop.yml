@@ -2,15 +2,22 @@
 # https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 
 AllCops:
+  Include:
+    - Rakefile
+    - config.ru
   Exclude:
-    - 'vendor/**/*'
-    - 'spec/fixtures/**/*'
-
+    - support/**/*
+    - vendor/**/*
+Encoding:
+  Enabled: false
+LineLength:
+  Max: 400
+MethodLength:
+  Max: 35
+ParenthesesAsGroupedExpression:
+  Enabled: false
+Style/SignalException:
+  Enabled: false
+Style/TrailingBlankLines:
+  EnforcedStyle: final_newline
 DefaultFormatter: emacs
-
-Style/Encoding:
-  Enabled: true
-
-Metrics/LineLength:
-  MaxLineLength: 100
-#  Enabled: false

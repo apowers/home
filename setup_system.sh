@@ -74,6 +74,8 @@ ARCH_PKGS=(
     vim
     openssh
     bind-tools
+    net-tools
+    ntp
 )
 
 # RDP app
@@ -131,7 +133,7 @@ function debian_packages {
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys
     echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
 
-    /usr/bin/apt-get ${APT_OPTS} upgrade 
+    /usr/bin/apt-get ${APT_OPTS} upgrade
     /usr/bin/apt-get ${APT_OPTS} install ${PKGS[@]}
     /usr/bin/apt-get ${APT_OPTS} install ${DEB_PKGS[@]}
 

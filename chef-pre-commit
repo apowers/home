@@ -1,0 +1,72 @@
+#!/bin/bash
+# vim: set ft=sh:
+
+# If you see 'warning: 2.1.7-compliant syntax, but you are running 2.1.6' then
+# sudo chef gem install parser --version 2.2.2.6 --no-user-install
+# sudo chef gem uninstall parser --version 2.2.3.0
+
+RET=0
+
+which foodcritic >/dev/null || ( echo ERR: no foodcritic && RET=$(($RET+$?)) )
+which rubocop    >/dev/null || ( echo ERR: no rubocop && RET=$(($RET+$?)) )
+which xmllint    >/dev/null || ( echo WARN: no xmllint && NOXML=1 )
+which erb        >/dev/null || ( echo WARN: no erb && NOERB=1)
+which jq         >/dev/null || ( echo WARN: no jq && NOJQ=1 )
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+  against=HEAD
+else
+  # Initial commit: if HEAD doesn't exist then diff against an empty tree object
+  against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+fi
+
+# Redirect output to stderr.
+exec 1>&2
+
+# Foodcritic
+REPOPATH=$(git rev-parse --show-toplevel)
+foodcritic --epic-fail any $REPOPATH
+RET=$(($RET+$?))
+
+# Syntax check updated files
+for FILE in $(git diff --cached --name-only); do
+#for FILE in $(find $REPOPATH -type f ); do
+  extension="${FILE##*.}"
+  # Don't check deleted or empty files
+  if [ ! -f "${REPOPATH}/${FILE}" ] || [ $(grep -c . "${REPOPATH}/${FILE}") -eq 0 ]; then
+    continue
+  fi
+  case $extension in
+    rb)
+      rubocop --format emacs -F $FILE
+      RET=$(($RET+$?))
+    ;;
+    erb)
+      if [ -v $NOERB ] ; then
+        erb -x -T - $FILE | ruby -c > /dev/null
+        if [ $? -ne 0 ] ; then RET=$(($RET+$?)) ; echo $FILE : ERB Parse Error ; fi
+      fi
+    ;;
+    json)
+      if [ -v $NOJQ ] ; then
+        cat $FILE | jq 'any' > /dev/null
+        if [ $? -ne 0 ] ; then  RET=$(($RET+$?)); echo $FILE : JSON Parse Error ; fi
+      fi
+      ;;
+    xml)
+      if [ -v $NOXML ] ; then
+        xmllint --noout $FILE > /dev/null
+        if [ $? -ne 0 ] ; then  RET=$(($RET+$?)); echo $FILE : XML Parse Error ; fi
+      fi
+      ;;
+    yaml|yml)
+      ruby -e "require 'yaml';YAML.parse(File.open('$FILE'))" > /dev/null
+      if [ $? -ne 0 ] ; then  RET=$(($RET+$?)); echo $FILE : YAML Parse Error ; fi
+      ;;
+    *) # ignored
+      ;;
+  esac
+done
+
+exit $RET

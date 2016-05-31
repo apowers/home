@@ -32,4 +32,4 @@ case $ID in
 esac
 
 # install configs for sublime
-eval cp sublime/* ~${SUDO_USER}/.config/sublime-text-3/Packages/User/.
+#eval cp sublime/* ~${SUDO_USER}/.config/sublime-text-3/Packages/User/.

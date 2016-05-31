@@ -18,6 +18,13 @@ else
 fi
 
 GEMS=(
+    knife-lastrun
+    test-kitchen
+    kitchen-docker
+    kitchen-vagrant
+    kitchen-openstack
+    berkshelf
+    stove
 )
 
 function main {
