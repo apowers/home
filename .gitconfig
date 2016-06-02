@@ -1,5 +1,6 @@
 [user]
-  email = atom.powers@gmail.com
+#  email = atom.powers@gmail.com
+  email = atom.r.powers@disney.com
   name = Atom Powers
 [push]
   default = current
@@ -10,10 +11,12 @@
 [alias]
   br = checkout -b
   ci = commit --all -m
+  cin = commit --all --no-verify -m
   co = checkout
   rb = rebase master
   st = status -s
   lg = log --name-status
   ad = add -A
   rbc = rebase --continue
+  sq = rebase -i master
 
