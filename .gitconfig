@@ -1,6 +1,5 @@
 [user]
-#  email = atom.powers@gmail.com
-  email = atom.r.powers@disney.com
+  email = atom.powers@gmail.com
   name = Atom Powers
 [push]
   default = current
@@ -9,14 +8,17 @@
 [branch]
   autosetuprebase = always
 [alias]
+  ad = add -A
   br = checkout -b
   ci = commit --all -m
   cin = commit --all --no-verify -m
   co = checkout
-  rb = rebase master
-  st = status -s
   lg = log --name-status
-  ad = add -A
+  plum = pull upstream master --tags
+  pu = push
+  pun = push --no-verify --follow-tags
+  rb = rebase master
   rbc = rebase --continue
   sq = rebase -i master
+  st = status -s
 

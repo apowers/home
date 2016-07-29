@@ -5,13 +5,28 @@ set completion-query-items 250
 set show-all-if-ambiguous on
 #set show-all-if-unmodified on
 set visible-stats on
-# History Search for bash on FreeBSD
-"\M-[A": history-search-backward
-"\M-OA": history-search-backward
-"\M-[B": history-search-forward
-"\M-OB": history-search-forward
-# History Search for bash on Ubuntu
+
+# up_arrow and down_arrow history search
+# Linux
 "\C-[OA" history-search-backward
 "\C-[OB" history-search-forward
 "\C-[[A" history-search-backward
 "\C-[[B" history-search-forward
+# FreeBSD
+"\M-[A": history-search-backward
+"\M-OA": history-search-backward
+"\M-[B": history-search-forward
+"\M-OB": history-search-forward
+
+
+# Word forward/backward with CTRL-left_arrow and CTRL-right_arrow
+# Linux (xfce-terminal)
+"\eOC": forward-word
+"\eOD": backward-word
+# xterm
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+"\e[5C": forward-word
+"\e[5D": backward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word
