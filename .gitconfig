@@ -1,5 +1,6 @@
 [user]
-  email = atom.powers@gmail.com
+#  email = atom.powers@gmail.com
+  email = atom.r.powers@disney.com
   name = Atom Powers
 [push]
   default = current
@@ -8,17 +9,30 @@
 [branch]
   autosetuprebase = always
 [alias]
-  ad = add -A
   br = checkout -b
   ci = commit --all -m
   cin = commit --all --no-verify -m
-  co = checkout
-  lg = log --name-status
-  plum = pull upstream master --tags
   pu = push
-  pun = push --no-verify --follow-tags
+  pun = push --no-verify #--follow-tags
+  pult = pull -s recursive -X theirs
+  co = checkout
   rb = rebase master
+  st = status -s
+  lg = log --name-status
+  ad = add -A
   rbc = rebase --continue
   sq = rebase -i master
-  st = status -s
+  plum = pull upstream master --tags
 
+[merge]
+  tool = sublimerge
+
+[mergetool "sublimerge"]
+  cmd = subl -n --wait \"$REMOTE\" \"$BASE\" \"$LOCAL\" \"$MERGED\" --command \"sublimerge_diff_views\"
+  trustExitCode = false
+
+[diff]
+  tool = sublimerge
+
+[difftool "sublimerge"]
+  cmd = subl -n --wait \"$REMOTE\" \"$LOCAL\" --command \"sublimerge_diff_views {\\\"left_read_only\\\": true, \\\"right_read_only\\\": true}\"

@@ -1,5 +1,6 @@
 #!/bin/bash
 # Set dev system
+# Docker is installed in setup_docker.sh because it keeps changing.
 
 if [[ "$1" == "xorg" ]] ; then
     echo "Installing Xorg environment."
@@ -42,15 +43,17 @@ DEB_PKGS=(
     git-flow
     libxml2-dev
     libxslt-dev
-    lxc-docker
     nc
     python-devel
+    python3
+    python3-dev
+    python3-pip
     ruby-dev
     vim-athena
+    unattended-upgrades
 )
 
 RHEL_PKGS=(
-    docker
     gitflow
     kernel-devel
     kernel-headers
@@ -66,7 +69,6 @@ FEDORA_PKGS=(
 
 ARCH_PKGS=(
     dmidecode
-    docker
     mlocate
     python
     ruby
@@ -118,8 +120,6 @@ function main {
     # Ruby Gems
     /usr/bin/gem install ${GEMS[@]} --no-rdoc --no-ri
 
-    eval chown -R ${SUDO_USER} ~${SUDO_USER}
-
 }
 
 function debian_packages {
@@ -129,70 +129,43 @@ function debian_packages {
     echo force-confold >> /etc/dpkg/dpkg.cfg.d/force_confold;
     echo 'Dpkg::Options{"--force-confdef";"--force-confold";}' >> /etc/apt/apt.conf.d/local
 
-    # Docker repository
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys
-    echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
-
-    /usr/bin/apt-get ${APT_OPTS} upgrade
-    /usr/bin/apt-get ${APT_OPTS} install ${PKGS[@]}
-    /usr/bin/apt-get ${APT_OPTS} install ${DEB_PKGS[@]}
+    /usr/bin/apt ${APT_OPTS} upgrade
+    /usr/bin/apt ${APT_OPTS} install ${PKGS[@]}
+    /usr/bin/apt ${APT_OPTS} install ${DEB_PKGS[@]}
 
     unset RUNLEVEL
+
+    pip3 install pylint
+    pip3 install autopep8
+
+    #Configure unattended-upgrades
+    APT_CFG_FILE="/etc/apt/apt.conf.d/20apt-periodic-upgrades"
+    echo 'APT::Periodic::Enable "1";' > ${APT_CFG_FILE}
+    echo 'APT::Periodic::Update-Package-Lists "1";' >> ${APT_CFG_FILE}
+    echo 'APT::Periodic::Unattended-Upgrade "1";' >> ${APT_CFG_FILE}
+    echo 'APT::Periodic::AutocleanInterval "21";' >> ${APT_CFG_FILE}
 }
 
 function rhel_packages {
-
-    rhel_docker_repo
-
     yum upgrade -q -y 2>&1 >/dev/null;
     yum install -q -y ${PKGS[@]}  2>&1 >/dev/null;
     yum install -q -y ${RHEL_PKGS[@]}  2>&1 >/dev/null;
-
-    docker_config
-
 }
 
 function fedora_packages {
-
     if [[ ! -z $XORG ]] ; then
         # RPM Fusion for freetype
         RPMFUSION_URL='http://download1.rpmfusion.org/free/fedora'
-        RPMFUSION_REPO'rpmfusion-free-release-22.noarch.rpm'
+        RPMFUSION_REPO='rpmfusion-free-release-22.noarch.rpm'
         /usr/bin/wget -O /tmp/$RPMFUSION_REPO $RPMFUSION_URL/$RPMFUSION_REPO 2>&1 /dev/null;
         rpm -i /tmp/$RPMFUSION_REPO  2>&1 >/dev/null;
         dnf install -q -y freetype-freeworld 2>&1 >/dev/null;
     fi
 
-    rhel_docker_repo
-
     dnf upgrade -q -y 2>&1 >/dev/null;
     dnf install -q -y ${PKGS[@]}  2>&1 >/dev/null;
     dnf install -q -y ${RHEL_PKGS[@]}  2>&1 >/dev/null;
     dnf install -q -y ${FEDORA_PKGS[@]}  2>&1 >/dev/null;
-
-    docker_config
-
-}
-
-function rhel_docker_repo {
-
-# Docker Repository
-cat > /etc/yum.repos.d/docker-main.repo << -EOF
-[docker-main-repo]
-name=Docker Main Repository
-baseurl=https://yum.dockerproject.org/repo/main/${ID}/${VERSION_ID}
-enabled=1
-gpgcheck=1
-gpgkey=https://yum.dockerproject.org/gpg
--EOF
-
-}
-
-function docker_config {
-    # Limit docker to using 10.5GiB of storage, from the default of 102GiB. Note that a default docker instance has a 10GiB root.
-    # TODO: don't use loopback devicemapper storage
-    # http://www.projectatomic.io/blog/2015/06/notes-on-fedora-centos-and-docker-storage-drivers/
-    sed -i 's/^DOCKER_STORAGE_OPTIONS.*/DOCKER_STORAGE_OPTIONS = --storage-opt dm.loopdatasize=10GB --storage-opt dm.loopmetadatasize=500MB/' /etc/sysconfig/docker-storage
 }
 
 # This function does a bit more than just install packages because Arch is Arch.
@@ -200,7 +173,6 @@ function docker_config {
 function arch_packages {
     /usr/bin/pacman -S --noconfirm ${PKGS[@]}  2>&1 >/dev/null;
     /usr/bin/pacman -S --noconfirm ${ARCH_PKGS[@]}  2>&1 >/dev/null;
-    eval wget --no-check-certificate https://raw.github.com/apowers/home/master/.xinitrc -O ~${SUDO_USER}/.xinitrc
 
     /bin/updatedb
     echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel

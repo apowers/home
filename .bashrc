@@ -13,7 +13,8 @@
 
 # enviroment variables
 [[ -r /etc/os-release ]] && source /etc/os-release
-PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:$PATH"
+# Home local bin comes before system default; and ensure we include standard bin directories
+PATH="$HOME/bin:$HOME/.local/bin:$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
 HISTCONTROL=ignoreboth:erasedups
 HISTSIZE=10000
 HISTFILESIZE=20000
@@ -85,10 +86,10 @@ title $(hostname -s)
 function user_prompt {
 # root username is red
   if [[ $(id -u) == 0 ]] ; then
-    echo -n "\[\033[0;31m\]\u@\h\[\033[m\]"
+    echo -n "\[\033[0;31m\]\u\[\033[m\]@\[\033[0;32m\]\h\[\033[m\]"
   else
-    echo -n "\[\033[0;32m\]\u@\h\[\033[m\]"
-  fi
+    echo -n "\[\033[1;34m\]\u\[\033[m\]@\[\033[0;32m\]\h\[\033[m\]"
+   fi
 }
 # show last exit code, time, user, hostname, directory, git branch, prompt
 # color prompt for xterm (or check `tput colors`)
@@ -96,12 +97,18 @@ function user_prompt {
 case $TERM in
 xterm*|screen*)
 # save the history on every prompt
-  export PS1="$(history -a)[\[\033[0;33m\]\$?\[\033[m\]](\t)$(user_prompt):\w/\[\033[0;94m\]\$(branch)\[\033[m\]\\$>"
+#  export PS1="$(history -a)[\[\033[0;33m\]\$?\[\033[m\]](\t)$(user_prompt):\w/\[\033[0;94m\]\$(branch)\[\033[m\]\\$>"
+  export PS1="$(history -a)\[\033[0;33m\]\$?\[\033[m\](\t)$(user_prompt):\w/\[\033[0;94m\]\$(branch)\[\033[m\]\\$>"
   ;;
 *)
   PS1="$(history -a)$(history -n)[\$?](\t)\u@\h:\w\\$>"
   ;;
 esac
+
+# Simple backup command
+function bk () {
+  cp $1 $1.$(id -nu)_$(date +%F)
+}
 
 #Color grep output
 alias grep='grep --color=auto'
