@@ -51,6 +51,8 @@ DEB_PKGS=(
     ruby-dev
     vim-athena
     unattended-upgrades
+    ldap-utils
+    awscli
 )
 
 RHEL_PKGS=(

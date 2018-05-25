@@ -97,7 +97,6 @@ function user_prompt {
 case $TERM in
 xterm*|screen*)
 # save the history on every prompt
-#  export PS1="$(history -a)[\[\033[0;33m\]\$?\[\033[m\]](\t)$(user_prompt):\w/\[\033[0;94m\]\$(branch)\[\033[m\]\\$>"
   export PS1="$(history -a)\[\033[0;33m\]\$?\[\033[m\](\t)$(user_prompt):\w/\[\033[0;90m\]\$(branch)\[\033[m\]\\$>"
   ;;
 *)
@@ -114,6 +113,7 @@ function bk () {
 alias grep='grep --color=auto'
 alias less='less -NMiscR'
 alias sudo='sudo '
+alias tf='terraform'
 
 # OS dependent aliases
 case $OSREL in
