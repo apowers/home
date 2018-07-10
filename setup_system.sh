@@ -139,6 +139,7 @@ function debian_packages {
 
     pip3 install pylint
     pip3 install autopep8
+    pip3 install boto3
 
     #Configure unattended-upgrades
     APT_CFG_FILE="/etc/apt/apt.conf.d/20apt-periodic-upgrades"
