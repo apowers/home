@@ -15,6 +15,7 @@
 [[ -r /etc/os-release ]] && source /etc/os-release
 # Home local bin comes before system default; and ensure we include standard bin directories
 PATH="$HOME/bin:$HOME/.local/bin:$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+PATH="${PATH}:/opt/chef-workstation/bin:/opt/chef-workstation/embedded/bin"
 HISTCONTROL=ignoreboth:erasedups
 HISTSIZE=10000
 HISTFILESIZE=20000
@@ -29,6 +30,8 @@ export PATH HISTCONTROL HISTSIZE HISTFILESIZE
 export EDITOR PAGER LESS EXINIT
 export FTP_PASSIVE_MODE=true
 export TZ='America/Los_Angeles'
+
+export DOCKER_HOST='localhost:2375'
 
 case $OSREL in
   FreeBSD)
@@ -97,12 +100,13 @@ function user_prompt {
 case $TERM in
 xterm*|screen*)
 # save the history on every prompt
-  export PS1="$(history -a)\[\033[0;33m\][\$?]\[\033[m\](\t)$(user_prompt):\w/\[\033[0;90m\]\$(branch)\[\033[m\]\\$>"
+  export PS1="$(history -n; history -w)\[\033[0;33m\][\$?]\[\033[m\](\t)$(user_prompt):\w/\[\033[0;90m\]\$(branch)\[\033[m\]\\n\$>$"
   ;;
 *)
-  PS1="$(history -a)$(history -n)[\$?](\t)\u@\h:\w\\$>"
+  PS1="$(. history -a)$(. history -n)[\$?](\t)\u@\h:\w\\n\$>"
   ;;
 esac
+export PS2=">> "
 
 # Simple backup command
 function bk () {
@@ -113,7 +117,10 @@ function bk () {
 alias grep='grep --color=auto'
 alias less='less -NMiscR'
 alias sudo='sudo '
+# Terraform
 alias tf='terraform'
+# AWS CLI
+alias asm='aws ssm start-session --target '
 
 # OS dependent aliases
 case $OSREL in
@@ -149,18 +156,18 @@ if ! shopt -oq posix; then
   fi
 fi
 
-#Load SSH Agent - use `ssh-add` to install keys.
-if [ ! $SSH_AGENT_PID ] ; then
-  if which ssh-agent ; then
-    ssh-agent
-    ssh-add ~/.ssh/*.key
-    ssh-add ~/.ssh/*.pem
-  fi
-fi
+# #Load SSH Agent - use `ssh-add` to install keys.
+# if [ ! $SSH_AGENT_PID ] ; then
+#   if which ssh-agent ; then
+#     ssh-agent
+#     ssh-add ~/.ssh/*.key
+#     ssh-add ~/.ssh/*.pem
+#   fi
+# fi
 
 # Load additional user bash configurations
 if test -d ~/.profile.d/; then
-  for profile in ~/.profile.d/*.sh; do
+  for profile in ~/.profile.d/*; do
     test -x $profile && . $profile
   done
   unset profile

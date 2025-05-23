@@ -1,0 +1,70 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-executables-have-shebangs
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-yaml
+        name: check yaml (unsafe)
+        args: [--unsafe]
+        files: .gitlab-ci.yml
+      - id: check-yaml
+        exclude: .gitlab-ci.yml
+      - id: check-json
+      - id: check-xml
+      - id: detect-private-key
+      - id: trailing-whitespace
+        exclude: '.patch$'
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.96.1
+    hooks:
+      - id: terraform_fmt
+        args:
+          - --hook-config=--parallelism-ci-cpu-cores=4
+      - id: terraform_tflint
+        args:
+          - --hook-config=--parallelism-ci-cpu-cores=4
+          - --args=--disable-rule=terraform_module_pinned_source
+      # - id: terraform_checkov
+      #   args:
+      #     - --hook-config=--parallelism-ci-cpu-cores=4
+      #     - --args=--quiet
+
+  - repo: https://github.com/terraform-docs/terraform-docs
+    rev: v0.18.0
+    hooks:
+      - id: terraform-docs-go
+
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 3.0.0
+    hooks:
+      - id: markdownlint # Configure in .mdlrc
+      - id: require-ascii
+      - id: rubocop
+      - id: shellcheck
+
+  - repo: https://github.com/psf/black
+    rev: 24.8.0
+    hooks:
+    - id: black
+      language_version: python3.10
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.1.1
+    hooks:
+      - id: flake8
+        name: flake8
+        types: [python]
+        args:
+          - --max-line-length=100
+          - --ignore=E121,E123,E126,E226,E24,E704,W503,W504
+
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 3.0.0
+    hooks:
+      - id: markdownlint # Configure in .mdlrc
+      - id: require-ascii
+      - id: rubocop
+      - id: shellcheck

@@ -14,5 +14,6 @@
     "trim_trailing_white_space_on_save": true,
     "update_check": false,
     "word_wrap": false,
-    "ruler": 80
+    "ruler": 80,
+    "default_line_ending": "unix"
 }
