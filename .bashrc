@@ -100,7 +100,7 @@ function user_prompt {
 case $TERM in
 xterm*|screen*)
 # save the history on every prompt
-  export PROMPT_COMMAND="history -n;history -w;"
+  export PROMPT_COMMAND="history -a;history -w;history -n"
   export PS1="\[\033[0;33m\][\$?]\[\033[m\](\t)$(user_prompt):\w/\[\033[0;90m\]\$(branch)\[\033[m\]\\n\$>$"
   ;;
 *)
@@ -174,3 +174,5 @@ if test -d ~/.profile.d/; then
   unset profile
 fi
 
+# WSL sometimes drops me into the wrong directory
+cd ~
